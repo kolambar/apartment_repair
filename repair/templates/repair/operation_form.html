@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Новая работа для {{ flat.txtFlatAddress }}</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .flat-info {
+            background: #e9f7ef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .btn {
+            padding: 8px 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2196F3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'repair:flat_detail' flat.id %}" class="back-link">← Назад к квартире</a>
+
+        <h1>Новая работа</h1>
+
+        <div class="flat-info">
+            <h2>{{ flat.txtFlatAddress }}</h2>
+            <p><strong>Владелец:</strong> {{ flat.intOwnerId.txtOwnerSurname }} {{ flat.intOwnerId.txtOwnerName }} {{ flat.intOwnerId.txtWorkerSecondName }}</p>
+            <p><strong>Площадь:</strong> {{ flat.fltArea }} м²</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.datOperationDate.id_for_label }}">Дата проведения работ:</label>
+                {{ form.datOperationDate }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.intOperationTypeId.id_for_label }}">Тип работ:</label>
+                {{ form.intOperationTypeId }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.intWorkerId.id_for_label }}">Рабочий:</label>
+                {{ form.intWorkerId }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.txtOperationDescription.id_for_label }}">Описание работ:</label>
+                {{ form.txtOperationDescription }}
+            </div>
+
+            <button type="submit" class="btn">Сохранить</button>
+        </form>
+    </div>
+</body>
+</html>

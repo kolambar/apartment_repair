@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Квартиры</title>
+    <style>
+        table, th, td {
+            border: 1px solid #333;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'repair:add_flat' %}" style="margin-bottom: 20px; display: inline-block;">Добавить квартиру</a>
+    <h1>Список квартир</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Адрес</th>
+                <th>ФИО владельца</th>
+                <th>Этаж</th>
+                <th>Площадь</th>
+                <th>Количество жильцов</th>
+            </tr>
+        </thead>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addressCells = document.querySelectorAll('tbody td:first-child');
+
+            addressCells.forEach(cell => {
+                cell.style.cursor = 'pointer';
+                cell.addEventListener('dblclick', function() {
+                    const flatId = this.parentElement.getAttribute('data-id');
+                    window.location.href = `/flat_detail/${flatId}/`;
+                });
+            });
+        });
+        </script>
+
+        <!-- И добавьте data-id к строке таблицы -->
+        <tbody>
+            {% for flat in flats %}
+            <tr data-id="{{ flat.id }}">
+                <td>{{ flat.txtFlatAddress }}</td>
+                <td>{{ flat.intOwnerId.txtOwnerSurname }} {{ flat.intOwnerId.txtOwnerName }} {{ flat.intOwnerId.txtOwnerSecondName }}</td>
+                <td>{{ flat.intStorey }}</td>
+                <td>{{ flat.fltArea }}</td>
+                <td>{{ flat.intCount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

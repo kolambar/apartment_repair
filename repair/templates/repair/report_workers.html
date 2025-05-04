@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отчёт: Рабочие</title>
+    <style>
+        table, th, td {
+            border: 1px solid #444;
+            border-collapse: collapse;
+            padding: 6px;
+        }
+        hr {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Отчёт: Рабочие</h1>
+
+    {% for worker in workers %}
+        <h2>{{ worker.txtWorkerSurname }} {{ worker.txtWorkerName }} {{ worker.txtWorkerSecondName }}</h2>
+        <p>Специальность: {{ worker.txtWorkerSpecialist }}</p>
+        <p>Сумма за работы: {{ worker.total_cost }} руб.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Тип работы</th>
+                    <th>Адрес квартиры</th>
+                    <th>Стоимость</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for op in worker.operations_summary %}
+                <tr>
+                    <td>{{ op.intOperationTypeId.txtOperationTypeName }}</td>
+                    <td>{{ op.intFlatId.txtFlatAddress }}</td>
+                    <td>{{ op.intOperationTypeId.fltOperationPrice }}</td>
+                    <td>{{ op.datOperationDate }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Всего работ: {{ worker.operation_count }}</p>
+        <p>Общая стоимость: {{ worker.total_cost }} руб.</p>
+        <hr>
+    {% endfor %}
+
+    <p><strong>Количество рабочих: {{ total_workers }}</strong></p>
+</body>
+</html>

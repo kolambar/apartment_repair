@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <style>
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Главное меню</h1>
+    <button onclick="location.href='{% url 'repair:flat_list' %}'">Квартиры</button>
+    <button onclick="location.href='{% url 'repair:report_workers' %}'">Отчёт: Рабочие</button>
+    <button onclick="location.href='{% url 'repair:report_repairs' %}'">Отчёт: Ремонт</button>
+
+    <form method="get" action="{% url 'repair:report_by_work_type' %}">
+        <label for="type">Выберите тип работы:</label>
+        <select name="type_id" id="type">
+            {% for type in operation_types %}
+            <option value="{{ type.id }}">{{ type.txtOperationTypeName }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Отчёт: Работа</button>
+    </form>
+</body>
+</html>

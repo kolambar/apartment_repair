@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отчёт: Ремонт</title>
+    <style>
+        table, th, td {
+            border: 1px solid #333;
+            border-collapse: collapse;
+            padding: 6px;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Отчёт: Ремонт</h1>
+
+    {% for flat in flats %}
+        {% if flat.operations.all %}
+            <h2>Квартира: {{ flat.txtFlatAddress }}</h2>
+            <p>Владелец: {{ flat.intOwnerId.txtOwnerSurname }} {{ flat.intOwnerId.txtOwnerName }} {{ flat.intOwnerId.txtOwnerSecondName }}</p>
+            <p>Площадь: {{ flat.fltArea }} кв.м | Проживающих: {{ flat.intCount }}</p>
+
+            {% for type_name, group in flat.operation_groups.items %}
+                <h3>Тип работы: {{ group.type_obj.txtOperationTypeName }} ({{ group.count }} раз)</h3>
+                <p>Стоимость одной работы: {{ group.type_obj.fltOperationPrice }} руб.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Описание</th>
+                            <th>Рабочий</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for op in group.operations %}
+                        <tr>
+                            <td>{{ op.datOperationDate }}</td>
+                            <td>{{ op.txtOperationDescription }}</td>
+                            <td>{{ op.intWorkerId.txtWorkerSurname }} {{ op.intWorkerId.txtWorkerName }} {{ op.intWorkerId.txtWorkerSecondName }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+
+            <p><strong>Общая стоимость работ: {{ flat.total_cost }} руб.</strong></p>
+            <hr>
+        {% endif %}
+    {% endfor %}
+</body>
+</html>

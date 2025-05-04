@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Отчёт: Работа по типу</title>
+    <style>
+        table, th, td {
+            border: 1px solid #333;
+            border-collapse: collapse;
+            padding: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Отчёт по типу работы</h1>
+
+    <form method="get">
+        <label for="type_id">Выберите тип работы:</label>
+        <select name="type_id" id="type_id" onchange="this.form.submit()">
+            <option value="">-- выберите --</option>
+            {% for type in types %}
+                <option value="{{ type.id }}" {% if type.id == selected_type_id %}selected{% endif %}>
+                    {{ type.txtOperationTypeName }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if operation_type %}
+        <h2>Тип работы: {{ operation_type.txtOperationTypeName }}</h2>
+        <p>Стоимость: {{ operation_type.fltOperationPrice }} руб.</p>
+
+        <h3>Рабочие:</h3>
+        <ul>
+            {% for worker in workers %}
+                <li>{{ worker.txtWorkerSurname }} {{ worker.txtWorkerName }} {{ worker.txtWorkerSecondName }} – {{ worker.txtWorkerSpecialist }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Выполненные работы:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Адрес квартиры</th>
+                    <th>Дата</th>
+                    <th>Описание</th>
+                    <th>Рабочий</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for op in operations %}
+                <tr>
+                    <td>{{ op.intFlatId.txtFlatAddress }}</td>
+                    <td>{{ op.datOperationDate }}</td>
+                    <td>{{ op.txtOperationDescription }}</td>
+                    <td>{{ op.intWorkerId.txtWorkerSurname }} {{ op.intWorkerId.txtWorkerName }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>
